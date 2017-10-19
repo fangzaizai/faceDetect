@@ -2,7 +2,7 @@
 import websocket
 import json
 from datetime import datetime
-from flask import Flask
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
@@ -31,7 +31,8 @@ def send_face_data():
 	print result
 	ws.close()
 
-def send_face_data(data, time):
+@app.route('/send_data_auto/<time>')
+def send_face_data(time):
 	ws = websocket.create_connection("ws://192.168.9.208:19101/FACE-DETECT-WS/websck")
 	face_unid_unique=111111111
 	face_refid_unique=111111111
@@ -58,6 +59,10 @@ def send_face_data(data, time):
 		result = ws.recv()
 		print result
 	ws.close()
+
+@app.route('/')
+def index():
+	render_template('index.html')
 
 if __name__ == '__main__':
 	app.run(debug=True)
