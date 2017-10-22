@@ -3,6 +3,7 @@ import websocket
 import json
 from datetime import datetime
 from flask import Flask, render_template
+from flask.ext.bootstrap import Bootstrap
 
 app = Flask(__name__)
 
@@ -66,3 +67,4 @@ def index():
 
 if __name__ == '__main__':
 	app.run(debug=True)
+	bootstrap = Bootstrap(app)
