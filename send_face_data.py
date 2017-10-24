@@ -2,7 +2,7 @@
 import websocket
 import json
 from datetime import datetime
-from flask import Flask, render_template, url_for, flash
+from flask import Flask, render_template, url_for, flash, redirect, url_for
 from flask_bootstrap import Bootstrap
 from forms import SendForm
 
