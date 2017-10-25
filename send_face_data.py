@@ -2,7 +2,7 @@
 import websocket
 import json
 from datetime import datetime
-from flask import Flask, render_template, url_for, flash, redirect, url_for
+from flask import Flask, render_template, url_for, flash, redirect, url_for,session
 from flask_bootstrap import Bootstrap
 from forms import SendForm
 
@@ -44,8 +44,10 @@ def send_face_data():
 	face_refid_unique=int(1)
 	event_refid=int(1)
 	#get times
-	time=form.time.data
 	#start sending
+	time=session.get('time')
+	print time
+	print type(time)
 	for i in range(1,int(time)):
 		data={
 		"type":"request",
@@ -87,11 +89,13 @@ def page_not_found(e):
 def internal_server_error(e):
 	return render_template('500.html'), 500
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
 	form = SendForm()
 	print 'hello'
 	if form.validate_on_submit():
+		print 'submit'
+		session['time']=form.time.data
 		return redirect(url_for('send_face_data'))
 	return render_template('index.html', form=form)
 
