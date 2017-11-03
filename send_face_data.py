@@ -39,12 +39,9 @@ def send_face_dat1():
 def send_face_data():
 	form = SendForm()
 	ws = websocket.create_connection("ws://192.168.9.208:19101/FACE-DETECT-WS/websck")
-	#init parameter
 	face_unid_unique=int(21234)
 	face_refid_unique=int(25678)
 	event_refid=int(21357)
-	#get times
-	#start sending
 	time=session.get('time')
 	print time
 	print type(time)
@@ -81,6 +78,11 @@ def send_face_data():
 	return render_template('index.html', form=form)
 
 #except socket.error
+
+@app.route('/add_black_face', methods=['GET', 'POST'])
+def add_black_face():
+	ws = websocket.create_connection('')
+
 
 @app.errorhandler(404)
 def page_not_found(e):
