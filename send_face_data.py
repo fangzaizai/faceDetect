@@ -35,6 +35,7 @@ def send_face_dat1():
 	print result
 	ws.close()
 '''
+#websocket protocol
 @app.route('/send_face_data', methods=['GET', 'POST'])
 def send_face_data():
 	form = SendForm()
@@ -81,8 +82,11 @@ def send_face_data():
 
 @app.route('/add_black_face', methods=['GET', 'POST'])
 def add_black_face():
-	ws = websocket.create_connection('')
 
+
+@app.route('/add_black_pic', method=['GET','POST'])
+def add_black_pic():
+	pass
 
 @app.errorhandler(404)
 def page_not_found(e):
