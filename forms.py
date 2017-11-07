@@ -5,3 +5,7 @@ from wtforms.validators import Required, Length, NumberRange
 class SendForm(Form):
 	time = IntegerField('send times', validators=[Required(), NumberRange(1,50001)])
 	submit = SubmitField('Send')
+
+class SendBlack(Form):
+	time = IntegerField('times', validators=[Required(), NumberRange(1,50001)])
+	submit = SubmitField('Send')

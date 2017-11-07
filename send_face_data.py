@@ -4,7 +4,9 @@ import json
 from datetime import datetime
 from flask import Flask, render_template, url_for, flash, redirect, url_for,session
 from flask_bootstrap import Bootstrap
-from forms import SendForm
+from forms import SendForm, SendBlack
+import urllib
+import urllib2
 
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
@@ -82,9 +84,31 @@ def send_face_data():
 
 @app.route('/add_black_face', methods=['GET', 'POST'])
 def add_black_face():
+	form = SendBlack()
+	black_info={
+	"refid": "1111",       # 可选，人脸的refid
+    "name": "1111" ,      
+    "is_crucial" : 1,       # 可选，人脸名称
+    "crucial_type": "ny_black"
+    }
+
+	black = urllib.urlencode(black_info)
+
+	headers={
+    "authorization" : "6fd5eab0-4fbc-4ace-a54f-9eac09a03d09",
+    "Content-Type" : "application/json"
+    }
+    #header = urllib.urlencode(header_info)
+	
+	request_path='http://192.168.9.208:20080/api/v1/face_web/faces'
+	req=urllib2.Request(request_path, black, headers)
+	response = urllib2.urlopen(req)
+	print response.read()
+	return render_template('index.html', form=form)
 
 
-@app.route('/add_black_pic', method=['GET','POST'])
+
+@app.route('/add_black_pic')
 def add_black_pic():
 	pass
 
@@ -98,12 +122,12 @@ def internal_server_error(e):
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-	form = SendForm()
+	form = SendBlack()
 	print 'hello'
 	if form.validate_on_submit():
 		print 'submit'
 		session['time']=form.time.data
-		return redirect(url_for('send_face_data'))
+		return redirect(url_for('add_black_face'))
 	return render_template('index.html', form=form)
 
 if __name__ == '__main__':
